@@ -12,4 +12,4 @@ app.set('view engine', 'ejs');
 
 app.use('/', router);
 
-app.listen(3000, ()=>console.log("Server has started"));
+module.exports = app;
