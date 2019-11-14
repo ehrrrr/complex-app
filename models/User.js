@@ -31,28 +31,31 @@ User.prototype.validate = function() {
     
 }
 
-User.prototype.login = function(callback) {
-    this.cleanUp();
-    usersConnection.findOne({username: this.data.username}, (err, attemptedUser) => {
-        if(attemptedUser && attemptedUser.password === this.data.password) {
-            callback('Congrats');
-        } else {
-            callback('Invalid username and/or password');
-            // this.errors.push('Invalid username and/or password');
-        }
-    });
-};
-
 User.prototype.register = function() {
     // Step #1: Validate user data
     this.cleanUp();
     this.validate();
-
+    
     // Step #2: Only if there are no validation error
     // then save the user into a database
     if(!this.errors.length) {
         usersConnection.insertOne(this.data);
     }
+};
+
+User.prototype.login = function() {
+    return new Promise((resolve, reject) => {
+        this.cleanUp();
+        usersConnection.findOne({username: this.data.username}).then((attemptedUser)=>{
+            if(attemptedUser && attemptedUser.password === this.data.password) {
+                resolve('Congrats');
+            } else {
+                reject('Invalid username and/or password');
+            }
+        }).catch(function(){
+            reject('Please try again later.')
+        });
+    });
 };
 
 module.exports = User;
