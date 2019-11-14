@@ -62,4 +62,8 @@ User.prototype.login = function() {
     });
 };
 
+User.prototype.logout = function() {
+
+};
+
 module.exports = User;
