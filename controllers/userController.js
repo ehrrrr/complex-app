@@ -64,3 +64,21 @@ exports.mustBeLoggedIn = function(req, res, next) {
         })
     }
 }
+
+exports.ifUserExists = function(req, res, next) {
+    User.findByUsername(req.params.username)
+    .then(function(userDocument) {
+        req.profileUser = userDocument;
+        next();
+    })
+    .catch(function() {
+        res.status(404).render('404');
+    });
+}
+
+exports.profilePostsScreen = function(req, res) {
+    res.render('profile', {
+        profileUsername: req.profileUser.username,
+        profileAvatar: req.profileUser.avatar
+    });
+}
