@@ -47,6 +47,12 @@ Post.prototype.create = function() {
     });
 }
 
+Post.prototype.update = function() {
+    return new Promise(function(resolve, reject) {
+
+    });
+}
+
 Post.reusablePostQuery= function(uniqueOperations, visitorId) {
     return new Promise(async function(resolve, reject) {
         let aggOperations = uniqueOperations.concat([
